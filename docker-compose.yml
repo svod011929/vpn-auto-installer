@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  # 3x-ui panel
+  3x-ui:
+    image: ghcr.io/mhsanaei/3x-ui:latest
+    container_name: 3x-ui
+    volumes:
+      - ./3x-ui/db:/etc/x-ui/
+      - ./3x-ui/cert:/root/cert/
+    ports:
+      - "2053:2053"
+      - "443:443"
+      - "8388:8388"
+    restart: unless-stopped
+    profiles: ["3x-ui"]
+
+  # Marzban panel
+  marzban:
+    image: gozargah/marzban:latest
+    container_name: marzban
+    restart: always
+    environment:
+      UVICORN_HOST: "0.0.0.0"
+      UVICORN_PORT: 8000
+    ports:
+      - "8000:8000"
+      - "443:443"
+      - "2053:2053"
+      - "8388:8388"
+    volumes:
+      - ./marzban/lib:/var/lib/marzban
+    profiles: ["marzban"]

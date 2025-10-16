@@ -1,0 +1,52 @@
+# Logs
+*.log
+logs/
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Dependency directories
+node_modules/
+
+# dotenv environment variables file
+.env
+.env.test
+.env.local
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+
+# VPN specific
+*.key
+*.crt
+*.pem
+configs/
+backups/
+
+# Docker
+docker-compose.override.yml
+
+# Database files
+*.db
+*.sqlite
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*~
+
+# Build outputs
+dist/
+build/
