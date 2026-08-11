@@ -1,92 +1,80 @@
 # VPS VPN Auto-Installer
 
-Автоматический установщик VPN панелей управления с предустановленными оптимальными конфигурациями для протоколов VLESS, VMess и Shadowsocks/Outline.
+Автоматический установщик VPN-панелей с настройкой системных параметров для VLESS, VMess и Shadowsocks/Outline.
 
-## 🌟 Особенности
+> Статус: legacy/experimental. Для новых установок также смотрите специализированные репозитории `3x-ui-auto-installer`, `awg-bot-installer`, `vpn-server-installer` и `remnashop-installer` в профиле KodoDrive.
 
-- **Автоматическая установка** панелей 3x-ui или Marzban на выбор
-- **Оптимизация системы** - настройка BBR, сетевых параметров и лимитов
-- **Готовые конфигурации** - создание трех инбаундов с оптимальными настройками
-- **Поддержка протоколов**:
-  - VLESS + XTLS-Reality (максимальная скорость и безопасность)
-  - VMess + WebSocket (универсальная совместимость)
-  - Shadowsocks/Outline (простота и стабильность)
+## Возможности
 
-## 🔧 Системные требования
+- установка 3x-ui или Marzban;
+- настройка BBR и сетевых параметров;
+- подготовка конфигураций для VLESS Reality, VMess WebSocket и Shadowsocks/Outline;
+- базовые команды диагностики после установки.
 
-- **ОС**: Ubuntu 20.04+, Debian 11+, CentOS 8+, RHEL 8+, Fedora 35+
-- **RAM**: Минимум 1GB, рекомендуется 2GB+
-- **CPU**: 1 ядро (рекомендуется 2+ ядра)
-- **Диск**: Минимум 10GB свободного места
-- **Сеть**: Публичный IPv4 адрес
-- **Права**: Root доступ
+## Требования
 
-## 🚀 Быстрая установка
+- Linux VPS с публичным IPv4;
+- root/sudo;
+- минимум 1 GB RAM и 10 GB свободного места;
+- рекомендуется Ubuntu 22.04+ или Debian 11+.
 
-### Одной командой:
+## Установка
+
+Перед запуском удалённого shell-скрипта рекомендуется скачать его и просмотреть содержимое.
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/yourusername/vpn-auto-installer/main/quick-install.sh | bash
-```
-
-### Или скачать и запустить:
-
-```bash
-wget https://raw.githubusercontent.com/yourusername/vpn-auto-installer/main/vpn-auto-installer.sh
+wget https://raw.githubusercontent.com/svod011929/vpn-auto-installer/main/vpn-auto-installer.sh
 chmod +x vpn-auto-installer.sh
-./vpn-auto-installer.sh
+sudo ./vpn-auto-installer.sh
 ```
 
-## 🛠 Панели управления
+Если в репозитории используется отдельный quick installer:
 
-### 3x-ui
-- **URL**: `http://YOUR_SERVER_IP:2053/xuipath`
-- **Логин**: `admin`
-- **Пароль**: `admin`
-- **Особенности**: Простота настройки, интуитивный интерфейс
+```bash
+wget https://raw.githubusercontent.com/svod011929/vpn-auto-installer/main/quick-install.sh
+chmod +x quick-install.sh
+sudo ./quick-install.sh
+```
 
-### Marzban
-- **URL**: `http://YOUR_SERVER_IP:8000/dashboard/`
-- **Логин**: `admin`
-- **Пароль**: `admin`
-- **Особенности**: Расширенная функциональность, API, мультиузел
+## Доступ к панелям
 
-## 🔐 Рекомендуемые конфигурации
+Не используйте публичные дефолтные логины и пароли. После установки создайте уникальные учётные данные и ограничьте доступ к административной панели firewall/VPN.
+
+Примеры URL зависят от выбранной панели и настроек установщика:
+
+- 3x-ui: `http://YOUR_SERVER_IP:PORT/PATH`
+- Marzban: `http://YOUR_SERVER_IP:8000/dashboard/`
+
+## Протоколы
 
 ### VLESS + XTLS-Reality
-- **Преимущества**: Максимальная скорость, невозможность обнаружения DPI
-- **Порт**: 443
-- **Использование**: Прямые подключения
+Подходит для прямых подключений и современных Xray-клиентов.
 
 ### VMess + WebSocket
-- **Преимущества**: Совместимость с CDN, обход блокировок
-- **Порт**: 2053
-- **Использование**: Подключения через CloudFlare
+Вариант для окружений, где нужен WebSocket/CDN-совместимый транспорт.
 
-### Shadowsocks/Outline
-- **Преимущества**: Простота настройки, стабильность
-- **Порт**: 8388
-- **Использование**: Мобильные устройства
+### Shadowsocks / Outline
+Более простой вариант для клиентов, поддерживающих эти протоколы.
 
-## 🛠 Устранение неполадок
+## Диагностика
 
-### Панель управления не открывается
 ```bash
-systemctl status x-ui        # для 3x-ui
-systemctl status marzban     # для Marzban
-ss -tlnp | grep :2053        # проверка портов
+systemctl status x-ui
+systemctl status marzban
+ss -tlnp
+journalctl -u x-ui -f
 ```
 
-### Проверка логов
-```bash
-journalctl -u x-ui -f       # логи 3x-ui
-marzban logs                # логи Marzban
-```
+## Безопасность
 
-## 📄 Лицензия
+- не храните токены и пароли в Git;
+- ограничивайте административные порты;
+- регулярно обновляйте ОС и панели;
+- проверяйте installer перед запуском от root;
+- делайте резервную копию конфигурации перед обновлениями.
 
-MIT License - см. [LICENSE](LICENSE) для деталей.
+## Лицензия
 
----
+См. `LICENSE`, если файл присутствует в репозитории.
 
-**Важно**: Использование VPN должно соответствовать местному законодательству.
+Используйте VPN-инфраструктуру в соответствии с применимым законодательством и правилами провайдера.
